@@ -6,6 +6,7 @@ import Entypo from '@expo/vector-icons/Entypo';
 import AntDesign from '@expo/vector-icons/AntDesign';
 
 
+
 const Layout = () => {
   return (
     <Tabs>
@@ -59,9 +60,9 @@ const Layout = () => {
             options={{
             headerShown: false, 
             title:"Profile",
-            // tabBarIcon: ({color, size}) =>(
-            //     <FontAwesome5 name="clock" size={24} color="black" />
-            // ),
+            tabBarIcon: ({color, size}) =>(
+                <AntDesign name="profile" size={24} color="black" />
+            ),
             
             }}/>
             
