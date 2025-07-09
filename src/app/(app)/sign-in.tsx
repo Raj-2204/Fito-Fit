@@ -1,6 +1,6 @@
 import { useSignIn } from '@clerk/clerk-expo'
 import { Link, useRouter } from 'expo-router'
-import { KeyboardAvoidingView, Platform, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { KeyboardAvoidingView, Platform, Text, TextInput, TouchableOpacity, View, Alert } from 'react-native'
 import {Ionicons} from "@expo/vector-icons"
 import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -17,8 +17,12 @@ export default function Page() {
 
   // Handle the submission of the sign-in form
   const onSignInPress = async () => {
-    if (!isLoaded) return
-
+    if (!isLoaded) return;
+    if(!emailAddress || !password){
+      Alert.alert("Error", "Please fill in all fields")
+      return
+    }
+    setIsLoading(true);
     // Start the sign-in process using the email and password provided
     try {
       const signInAttempt = await signIn.create({
@@ -40,6 +44,8 @@ export default function Page() {
       // See https://clerk.com/docs/custom-flows/error-handling
       // for more info on error handling
       console.error(JSON.stringify(err, null, 2))
+    } finally{
+      setIsLoading(false);
     }
   }
 
@@ -128,12 +134,28 @@ export default function Page() {
         <View className='flex-1 h-px bg-gray-200'></View>
       </View>
       <GoogleSignIn />
-      <View className='pb-6'>
+      
+      
+      {/* Sign Up Link */}
+      <View className='flex-row justify-center items-center mb-6 mt-4'>
+        <Text className='text-gray-600 text-sm'>
+          Don't have an account?{' '}
+        </Text>
+        <Link href="/sign-up" asChild>
+          <TouchableOpacity>
+            <Text className='text-blue-600 font-semibold text-sm'>
+              Sign up
+            </Text>
+          </TouchableOpacity>
+        </Link>
+      </View>
+    </View>
+    <View className='pb-6'>
         <Text className='text-center text-gray-500 text-sm'>
           Start your fitness journey today
         </Text>
       </View>
-    </View>
+
     </View>
   </KeyboardAvoidingView>
 </SafeAreaView>
