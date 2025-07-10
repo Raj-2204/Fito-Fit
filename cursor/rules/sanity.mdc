@@ -1,0 +1,119 @@
+---
+description: Whenever sanity is used
+alwaysApply: false
+---
+----------------------------------REFACTORING RULES----------------------------------
+Any time you refactor to tailwind, if there's any form of logic with styles, make sure you use the cn utility otherwise it won't work
+Any time there's a charka ui heading without styles, it's the equivalent of a text-4xl by default
+----------------------------------SCREENSHOT RULES----------------------------------
+If you are asked to produce sanity schema, you follow this ruleset:
+You help Sanity developers describe types and interfaces using pictures.
+Here is an example in JSON format:
+Example: I send a picture with a product card.
+You reply using the Sanity rules below
+ defineType({
+   type: 'object',
+   name: 'custom-object',
+   fields: [
+     defineField({
+       type: 'array',
+       name: 'arrayField',
+       title: 'Things',
+       of: [
+         defineArrayMember({
+           type: 'object',
+           name: 'type-name-in-array',
+           fields: [defineField({type: 'string', name: 'title', title: 'Title'})],
+         }),
+       ],
+     }),
+   ],
+ })
+Make sure you always include a description of what the schema does based on the image, for example if it's a title, it's 	description: 'The large text that is the primary focus of the block',.
+
+If you see a tiny piece of text above a title, it's probably an eyebrow
+
+If you see a large piece of text, that doesn't require any formatting such as italics, bold or links that looks like a header it should be considered a title or subtitle if there's two headers and one is smaller than the other.
+
+If there is a large piece of text within the component that has bolds, italic, numbered list or bulleted points in a regular disc style there's a good chance it will need to be richText.
+
+If there's an image, it's likely it will need to be an image which should include an alt text. If the image is behind the text and takes up a significant portion of the component, the chances are it's a backgroundImage, which would the exact same way, just with a different name.
+
+If there's buttons remember to use the reusable buttons array so that we can repeat the pattern with our schema
+
+If richTextField or buttonsField exists anywhere within the project, make sure to use this and import it.
+
+----------------------------------INTERNATIONALISATION RULES----------------------------------
+Whenever I mention internationalisation and frontend, please take any of the following and convert to the ltr/rtl agnostic version below
+left ➜ start
+right ➜ end
+ml ➜ ms
+mr ➜ me
+pl ➜ ps
+pr ➜ pe
+border-l ➜ border-s
+border-r ➜ border-e
+text-left ➜ text-start
+text-right ➜ text-end
+float-left ➜ float-start
+float-right ➜ float-end
+
+Any time there's a button that has a prefix or a suffix with an arrow right or left, you'll need to throw a RTL prop to invert it horizontally.
+
+----------------------------------REFACTORING RULES----------------------------------
+Any time you refactor to tailwind, if there's any form of logic with styles, make sure you use the cn utility otherwise it won't work
+Any time there's a charka ui heading without styles, it's the equivalent of a text-4xl by default
+----------------------------------SCREENSHOT RULES----------------------------------
+If you are asked to produce sanity schema, you follow this ruleset:
+You help Sanity developers describe types and interfaces using pictures.
+Here is an example in JSON format:
+Example: I send a picture with a product card.
+You reply using the Sanity rules below
+ defineType({
+   type: 'object',
+   name: 'custom-object',
+   fields: [
+     defineField({
+       type: 'array',
+       name: 'arrayField',
+       title: 'Things',
+       of: [
+         defineArrayMember({
+           type: 'object',
+           name: 'type-name-in-array',
+           fields: [defineField({type: 'string', name: 'title', title: 'Title'})],
+         }),
+       ],
+     }),
+   ],
+ })
+Make sure you always include a description of what the schema does based on the image, for example if it's a title, it's 	description: 'The large text that is the primary focus of the block',.
+
+If you see a tiny piece of text above a title, it's probably an eyebrow
+
+If you see a large piece of text, that doesn't require any formatting such as italics, bold or links that looks like a header it should be considered a title or subtitle if there's two headers and one is smaller than the other.
+
+If there is a large piece of text within the component that has bolds, italic, numbered list or bulleted points in a regular disc style there's a good chance it will need to be richText.
+
+If there's an image, it's likely it will need to be an image which should include an alt text. If the image is behind the text and takes up a significant portion of the component, the chances are it's a backgroundImage, which would the exact same way, just with a different name.
+
+If there's buttons remember to use the reusable buttons array so that we can repeat the pattern with our schema
+
+If richTextField or buttonsField exists anywhere within the project, make sure to use this and import it.
+
+----------------------------------INTERNATIONALISATION RULES----------------------------------
+Whenever I mention internationalisation and frontend, please take any of the following and convert to the ltr/rtl agnostic version below
+left ➜ start
+right ➜ end
+ml ➜ ms
+mr ➜ me
+pl ➜ ps
+pr ➜ pe
+border-l ➜ border-s
+border-r ➜ border-e
+text-left ➜ text-start
+text-right ➜ text-end
+float-left ➜ float-start
+float-right ➜ float-end
+
+Any time there's a button that has a prefix or a suffix with an arrow right or left, you'll need to throw a RTL prop to invert it horizontally.
