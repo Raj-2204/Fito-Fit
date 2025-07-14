@@ -1,30 +1,25 @@
 import { View, Text, TextInput, TouchableOpacity, Touchable, FlatList, RefreshControl } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { Ionicons } from '@expo/vector-icons'
 import { useRouter } from 'expo-router'
 
 import { defineQuery } from 'groq'
 import {client} from "@/lib/sanity/client"
-
 import groq from 'groq';
+import { Exercise } from '@/lib/sanity/types';
+import ExerciseCard from '@/app/components/ExerciseCard';
 
-export const exercisesQuery = groq`*[_type == "exercise"]{
-  _id,
-  name,
-  description,
-  difficulty,
-  image,
-  videoURL,
-  isActive
-}`;
+export const exerciseQuery = defineQuery(`*[_type == "exercise"]{
+  ...
+}`);
 
 
 const Exercises = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const router = useRouter();
   const[refreshing, setRefershing] = useState(false);
-  const [exercises, setExercises] = useState([]);
+  const [exercises, setExercises] = useState<Exercise[]>([]);
   const [filteredExercises, setFilterExercises] = useState([]);
   const onRefresh = async () =>{
     setRefershing(true);
@@ -33,13 +28,19 @@ const Exercises = () => {
   }
   const fetchExercises = async() =>{
     try{
-      const exercises = await client.fetch(exercisesQuery);
+      const exercises = await client.fetch(exerciseQuery);
       setExercises(exercises);
       setFilterExercises(exercises);
     }catch(error){
       console.error("error fetching exercises", error)
     }
   }
+  useEffect(()=> {fetchExercises()}, [])
+  useEffect(()=>{
+    const filtered = exercises.filter((exercise: Exercise) =>
+    exercise.name.toLowerCase().includes(searchQuery.toLowerCase()))
+    setFilterExercises(filtered)
+  }, [searchQuery, exercises])
   return (
     <SafeAreaView className='flex-1 bg-gray-50'>
         <View className='px-6 py-4 bg-white border-b border-gray-200'>
@@ -65,7 +66,10 @@ const Exercises = () => {
           </View>
         </View>
         <FlatList
-        data ={[]}
+        data ={filteredExercises}
+        keyExtractor={(item) => item._id}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{padding: 24}}
         renderItem ={
           (
             {item}

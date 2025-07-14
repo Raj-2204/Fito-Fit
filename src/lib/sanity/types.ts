@@ -187,14 +187,18 @@ export type SanityAssetSourceData = {
 export type AllSanitySchemaTypes = Workout | Exercise | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ../src/app/(app)/(tabs)/exercises.tsx
-// Variable: exercisesQuery
-// Query: *[_type == "exercise"]{  _id,  name,  description,  difficulty,  image,  videoURL,  isActive}
-export type ExercisesQueryResult = Array<{
+// Variable: exerciseQuery
+// Query: *[_type == "exercise"]{  ...}
+export type ExerciseQueryResult = Array<{
   _id: string;
-  name: string | null;
-  description: string | null;
-  difficulty: "advanced" | "beginner" | "intermediate" | null;
-  image: {
+  _type: "exercise";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  name?: string;
+  description?: string;
+  difficulty?: "advanced" | "beginner" | "intermediate";
+  image?: {
     asset?: {
       _ref: string;
       _type: "reference";
@@ -206,15 +210,15 @@ export type ExercisesQueryResult = Array<{
     crop?: SanityImageCrop;
     alt?: string;
     _type: "image";
-  } | null;
-  videoURL: string | null;
-  isActive: boolean | null;
+  };
+  videoURL?: string;
+  isActive?: boolean;
 }>;
 
 // Query TypeMap
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
-    "*[_type == \"exercise\"]{\n  _id,\n  name,\n  description,\n  difficulty,\n  image,\n  videoURL,\n  isActive\n}": ExercisesQueryResult;
+    "*[_type == \"exercise\"]{\n  ...\n}": ExerciseQueryResult;
   }
 }
