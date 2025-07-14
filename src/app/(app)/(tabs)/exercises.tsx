@@ -76,9 +76,9 @@ const Exercises = () => {
           )=>(
           <ExerciseCard
           item ={item}
-          onPress = {()=> router.push(`/exercise-detail?id=${item._id}`)}/>
+          onPress = {()=> router.push(`/exercise-details?id=${item._id}`)}/>
         )}
-        refreshControl={
+        refreshControl={ 
           <RefreshControl
           refreshing={refreshing}
           onRefresh={onRefresh}

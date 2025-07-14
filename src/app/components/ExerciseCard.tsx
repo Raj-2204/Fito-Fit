@@ -2,6 +2,7 @@ import { View, Text, TouchableOpacity, Image } from 'react-native'
 import React from 'react'
 import { Exercise } from '@/lib/sanity/types'
 import { Ionicons } from '@expo/vector-icons'
+import { urlFor } from '@/lib/sanity/client';
 
 interface ExerciseCardProps {
     item: Exercise;
@@ -36,7 +37,7 @@ export default function ExerciseCard({
             <View className="flex-row items-center">
                 {item.image?.asset && (
                     <Image
-                        source={{ uri: `https://cdn.sanity.io/images/your-project-id/production/${item.image.asset._ref.replace('image-', '').replace('-jpg', '.jpg').replace('-png', '.png')}` }}
+                        source={{ uri: urlFor(item.image?.asset?._ref).url()}}
                         className="w-16 h-16 rounded-xl bg-gray-200"
                         resizeMode="cover"
                     />
