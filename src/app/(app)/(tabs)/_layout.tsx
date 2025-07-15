@@ -1,13 +1,14 @@
-import { View, Text } from 'react-native'
+import { View, Text, Image } from 'react-native'
 import React from 'react'
 import { Tabs } from 'expo-router'
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import Entypo from '@expo/vector-icons/Entypo';
 import AntDesign from '@expo/vector-icons/AntDesign';
 
-
+import {useUser} from "@clerk/clerk-expo"
 
 const Layout = () => {
+    const {user} = useUser();
   return (
     <Tabs>
         <Tabs.Screen name= "index" options={{
@@ -61,7 +62,13 @@ const Layout = () => {
             headerShown: false, 
             title:"Profile",
             tabBarIcon: ({color, size}) =>(
-                <AntDesign name="profile" size={24} color="black" />
+                <Image
+                source={{
+                    uri: user?.imageUrl ?? user?.externalAccounts[0]?.imageUrl,
+                }}
+                className='rounded-full'
+                style={{width: 28, height: 28, borderRadius:100}}
+                />
             ),
             
             }}/>
