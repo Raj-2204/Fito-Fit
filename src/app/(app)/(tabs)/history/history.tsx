@@ -36,7 +36,7 @@ export default function HistoryPage() {
   const {refresh} = useLocalSearchParams();
   const router = useRouter();
 
-  console.log(user.id)
+  
   const fetchWorkouts = async () => {
     if(!user?.id) return;
     try{
