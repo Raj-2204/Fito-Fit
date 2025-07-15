@@ -16,6 +16,15 @@ const Layout = () => {
     <Stack>
         <Stack.Protected guard= {isSignedIn}>
             <Stack.Screen name='(tabs)' options={{headerShown: false }}></Stack.Screen>
+            <Stack.Screen
+             name='exercise-details' 
+             options={{
+              headerShown: false, 
+              presentation:"modal",
+              gestureEnabled: true,
+              animationTypeForReplace: "push",
+            }}
+            ></Stack.Screen>
         </Stack.Protected>
         <Stack.Protected guard={!isSignedIn}>
             <Stack.Screen name="sign-in" options={{headerShown: false}}></Stack.Screen>
