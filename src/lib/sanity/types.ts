@@ -217,7 +217,7 @@ export type ExerciseQueryResult = Array<{
 
 // Source: ../src/app/(app)/(tabs)/history.tsx
 // Variable: getWorkoutQuery
-// Query: *[_type == "workout" && userId == $userId] | order(date desc) {  _id,  date,  duration,  exercises[]{    exercise->{    _id,    name    },    sets[]{      reps,      weight,      weightUnit,      _type,      _key    },    _type,    _key  }}
+// Query: *[_type == "workout" && userId == $userId] | order(date desc) {  _id,  date,  duration,  exercises[]{    exercise->{    _id,    name    },    sets[]{      reps,      weight,      weightUnit,      _key    },    _type,    _key  }}
 export type GetWorkoutQueryResult = Array<{
   _id: string;
   date: string | null;
@@ -259,7 +259,7 @@ import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
     "*[_type == \"exercise\"]{\n  ...\n}": ExerciseQueryResult;
-    "*[_type == \"workout\" && userId == $userId] | order(date desc) {\n  _id,\n  date,\n  duration,\n  exercises[]{\n    exercise->{\n    _id,\n    name\n    },\n    sets[]{\n      reps,\n      weight,\n      weightUnit,\n      _type,\n      _key\n    },\n    _type,\n    _key\n  }\n}": GetWorkoutQueryResult;
+    "*[_type == \"workout\" && userId == $userId] | order(date desc) {\n  _id,\n  date,\n  duration,\n  exercises[]{\n    exercise->{\n    _id,\n    name\n    },\n    sets[]{\n      reps,\n      weight,\n      weightUnit,\n      _key\n    },\n    _type,\n    _key\n  }\n}": GetWorkoutQueryResult;
     "*[_type == \"exercise\" && _id == $id][0]{\n  ...\n}": ExerciseDetailQueryResult;
   }
 }
