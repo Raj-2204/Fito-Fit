@@ -91,6 +91,18 @@ export default function HistoryPage() {
   const getTotalSets = (workout: any) => {
     return workout.sets?.length || 0
   }
+
+  const getExerciseNames = (workout: any) => {
+    const exerciseNames: string[] = []
+    workout.sets?.forEach((set: any) => {
+      set.exercises?.forEach((exercise: any) => {
+        if (exercise.exercise?.name && !exerciseNames.includes(exercise.exercise.name)) {
+          exerciseNames.push(exercise.exercise.name)
+        }
+      })
+    })
+    return exerciseNames
+  }
   const formatWorkoutDuration = (seconds?: number) =>{
     if(!seconds) return "Duration not recorded";
     return formatDuration(seconds);
@@ -171,8 +183,8 @@ export default function HistoryPage() {
                     <Ionicons name="fitness-outline" size={24} color="#3B82F6" />
                   </View>
                 </View>
-                <View className="flex-row items-center justify-between mb-4">
-                  <View className="flex-row items-center">
+                <View className="mb-4">
+                  <View className="flex-row items-center mb-3">
                     <View className="bg-gray-100 rounded-lg px-3 py-2 mr-3">
                       <Text className="text-sm font-medium text-gray-700">
                         {getTotalExercises(workout)} exercises                     
@@ -183,6 +195,24 @@ export default function HistoryPage() {
                         {getTotalSets(workout)} sets
                       </Text>
                     </View>
+                  </View>
+                  
+                  {/* Exercise Names */}
+                  <View className="flex-row flex-wrap">
+                    {getExerciseNames(workout).slice(0, 3).map((exerciseName: string, index: number) => (
+                      <View key={index} className="bg-blue-50 rounded-full px-3 py-1 mr-2 mb-2">
+                        <Text className="text-xs font-medium text-blue-700">
+                          {exerciseName}
+                        </Text>
+                      </View>
+                    ))}
+                    {getExerciseNames(workout).length > 3 && (
+                      <View className="bg-gray-50 rounded-full px-3 py-1 mr-2 mb-2">
+                        <Text className="text-xs font-medium text-gray-600">
+                          +{getExerciseNames(workout).length - 3} more
+                        </Text>
+                      </View>
+                    )}
                   </View>
                 </View>
               </TouchableOpacity>

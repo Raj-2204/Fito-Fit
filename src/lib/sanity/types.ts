@@ -215,15 +215,51 @@ export type ExerciseQueryResult = Array<{
   isActive?: boolean;
 }>;
 
-// Source: ../src/app/(app)/(tabs)/history.tsx
+// Source: ../src/app/(app)/(tabs)/history/history.tsx
 // Variable: getWorkoutQuery
-// Query: *[_type == "workout" && userId == $userId] | order(date desc) {  _id,  date,  duration,  exercises[]{    exercise->{    _id,    name    },    sets[]{      reps,      weight,      weightUnit,      _key    },    _type,    _key  }}
+// Query: *[_type == "workout" && userId == $userId] | order(date desc) {  _id,  date,  duration,  sets[]{    setNumber,    exercises[]{      exercise->{        _id,        name      },      reps,      weight,      weightUnit,      _key    },    _key  }}
 export type GetWorkoutQueryResult = Array<{
   _id: string;
   date: string | null;
   duration: number | null;
-  exercises: null;
+  sets: Array<{
+    setNumber: number | null;
+    exercises: Array<{
+      exercise: {
+        _id: string;
+        name: string | null;
+      } | null;
+      reps: number | null;
+      weight: number | null;
+      weightUnit: "kg" | "lbs" | null;
+      _key: string;
+    }> | null;
+    _key: string;
+  }> | null;
 }>;
+
+// Source: ../src/app/(app)/(tabs)/history/workout-record.tsx
+// Variable: workoutDetailQuery
+// Query: *[_type == "workout" && _id == $workoutId][0]{  _id,  date,  duration,  sets[]{    setNumber,    exercises[]{      exercise->{        _id,        name      },      reps,      weight,      weightUnit,      _key    },    _key  }}
+export type WorkoutDetailQueryResult = {
+  _id: string;
+  date: string | null;
+  duration: number | null;
+  sets: Array<{
+    setNumber: number | null;
+    exercises: Array<{
+      exercise: {
+        _id: string;
+        name: string | null;
+      } | null;
+      reps: number | null;
+      weight: number | null;
+      weightUnit: "kg" | "lbs" | null;
+      _key: string;
+    }> | null;
+    _key: string;
+  }> | null;
+} | null;
 
 // Source: ../src/app/(app)/exercise-details.tsx
 // Variable: exerciseDetailQuery
@@ -259,7 +295,8 @@ import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
     "*[_type == \"exercise\"]{\n  ...\n}": ExerciseQueryResult;
-    "*[_type == \"workout\" && userId == $userId] | order(date desc) {\n  _id,\n  date,\n  duration,\n  exercises[]{\n    exercise->{\n    _id,\n    name\n    },\n    sets[]{\n      reps,\n      weight,\n      weightUnit,\n      _key\n    },\n    _type,\n    _key\n  }\n}": GetWorkoutQueryResult;
+    "*[_type == \"workout\" && userId == $userId] | order(date desc) {\n  _id,\n  date,\n  duration,\n  sets[]{\n    setNumber,\n    exercises[]{\n      exercise->{\n        _id,\n        name\n      },\n      reps,\n      weight,\n      weightUnit,\n      _key\n    },\n    _key\n  }\n}": GetWorkoutQueryResult;
+    "*[_type == \"workout\" && _id == $workoutId][0]{\n  _id,\n  date,\n  duration,\n  sets[]{\n    setNumber,\n    exercises[]{\n      exercise->{\n        _id,\n        name\n      },\n      reps,\n      weight,\n      weightUnit,\n      _key\n    },\n    _key\n  }\n}": WorkoutDetailQueryResult;
     "*[_type == \"exercise\" && _id == $id][0]{\n  ...\n}": ExerciseDetailQueryResult;
   }
 }
