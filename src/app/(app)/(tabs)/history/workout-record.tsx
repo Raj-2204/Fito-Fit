@@ -150,7 +150,7 @@ function WorkoutRecord() {
         [
           {
             text: 'OK',
-            onPress: () => router.replace('/(app)/(tabs)/history')
+            onPress: () => router.replace('/(app)/(tabs)/history/history?refresh')
           }
         ]
       );

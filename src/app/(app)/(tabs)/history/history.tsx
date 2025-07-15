@@ -56,7 +56,7 @@ export default function HistoryPage() {
   useEffect(() =>{
     if(refresh === "true"){
       fetchWorkouts();
-      router.replace("/(apps)/(tabs)/history")
+      router.replace("/(app)/(tabs)/history/history")
     }
   }, [refresh]);
 

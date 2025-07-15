@@ -23,6 +23,10 @@ interface WorkoutStore {
     weightUnit: "kg" | "lbs";
 
     addExerciseToWorkout: (exercise: {name: string; sanityId: string }) => void;
+    removeExerciseFromWorkout: (exerciseId: string) => void;
+    addSetToExercise: (exerciseId: string) => void;
+    removeSetFromExercise: (exerciseId: string, setId: string) => void;
+    updateSetInExercise: (exerciseId: string, setId: string, updates: Partial<WorkoutSet>) => void;
     setWorkoutExercises: (
         exercises:
         | WorkoutExercise[]
@@ -49,6 +53,60 @@ export const useWorkoutStore = create<WorkoutStore>()(
                     workoutExercises: [...state.workoutExercises, newExercise]
                 };
             }),
+        removeExerciseFromWorkout: (exerciseId) =>
+            set((state) => ({
+                workoutExercises: state.workoutExercises.filter(
+                    (exercise) => exercise.id !== exerciseId
+                )
+            })),
+        addSetToExercise: (exerciseId) =>
+            set((state) => ({
+                workoutExercises: state.workoutExercises.map((exercise) => {
+                    if (exercise.id === exerciseId) {
+                        const newSet: WorkoutSet = {
+                            id: Math.random().toString(),
+                            reps: "",
+                            weight: "",
+                            weightUnit: state.weightUnit,
+                            isCompleted: false
+                        };
+                        return {
+                            ...exercise,
+                            sets: [...exercise.sets, newSet]
+                        };
+                    }
+                    return exercise;
+                })
+            })),
+        removeSetFromExercise: (exerciseId, setId) =>
+            set((state) => ({
+                workoutExercises: state.workoutExercises.map((exercise) => {
+                    if (exercise.id === exerciseId) {
+                        return {
+                            ...exercise,
+                            sets: exercise.sets.filter((set) => set.id !== setId)
+                        };
+                    }
+                    return exercise;
+                })
+            })),
+        updateSetInExercise: (exerciseId, setId, updates) =>
+            set((state) => ({
+                workoutExercises: state.workoutExercises.map((exercise) => {
+                    if (exercise.id === exerciseId) {
+                        return {
+                            ...exercise,
+                            sets: exercise.sets.map((set) => {
+                                if (set.id === setId) {
+                                    return { ...set, ...updates };
+                                }
+                                return set;
+                            })
+                        };
+                    }
+                    return exercise;
+                })
+            })),
             setWorkoutExercises: (exercises) =>
                 set((state)=>({
                     workoutExercises:
